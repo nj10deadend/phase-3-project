@@ -2,10 +2,10 @@ import Item from "./Item";
 
 function ItemList (props) {
 
-    const renderItems = props.fetchedGroceries.map(eachItem => {
+    const renderItems = props.fetchedItems.map(eachItem => {
 
         return (
-            <Item eachItem={eachItem} />
+            <Item key={eachItem.id} eachItem={eachItem} />
         )
 
     })
