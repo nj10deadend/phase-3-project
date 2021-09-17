@@ -1,15 +1,13 @@
-function User ({eachUser}) {
-
-    // console.log(eachUser);
+function User ({eachUser, deleteFunction}) {
+    function deleter (synthEvent) {
+        deleteFunction(eachUser);
+    }
     return (
-        <div>
-
+        <div className='tile' id='scroll'>
             <img className="picture" src={eachUser.profile_pic_url} alt={eachUser.name} />
-            <h2>{eachUser.name}</h2>
+            <h2 className='name'>{eachUser.name}</h2>
+            <button className='buy' onClick={deleter}> DELETE USER </button>
         </div>
     )
-
 }
-
-
 export default User;

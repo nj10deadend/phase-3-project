@@ -3,25 +3,15 @@ import {useState, useEffect} from 'react';
 import { Route, Switch } from 'react-router-dom';
 import Header from './Components/Header';
 import ItemList from './Components/ItemList';
-// import UserList from './Components/UserList';
 import UsersList from './Components/UsersList';
-
-// import TransactionHistory from './Components/TransactionHistory';
 import './App.css';
 
 function App() {
-
-
   const [itemsList, setItemsList] = useState( [] );
-
   const [userList, setUserList] = useState( [] );
-
-  const [transactionsList, setTransactionsList] = useState( [] );
-
-
-  //GET FETCH everything function
-    function fetchItemsAndUsers () {
-
+  // const [transactionsList, setTransactionsList] = useState( [] );
+  //GET FETCH Users and Items function
+    function fetchItemsUsersAndTransactions () {
       const getFetchGroceries = () => {
         fetch('http://localhost:9292/items')
         .then(response => response.json())
@@ -41,67 +31,36 @@ function App() {
         });
       } 
       getFetchUsers();
-      
     }
 
-  useEffect(fetchItemsAndUsers, [])
+  useEffect(fetchItemsUsersAndTransactions, [])
 
+/// Delete fetch for Users
+  function deleteUser (userToDelete) {
+    const id = userToDelete.id
+    fetch(`http://localhost:9292/users/${id}`, {
+      method: 'DELETE'
+    })
+    let usersRemaining = userList.filter(eachUser => 
+      eachUser.id !== userToDelete.id
+    )
+    setUserList([...usersRemaining])
+  }
 
-  ////////////////////////////////////////////////////
-
-
-  // Items GET Fetch
-  // const getFetchGroceries = () => {
-  //   fetch('http://localhost:9292/items')
-  //   .then(response => response.json())
-  //   .then(fetchedGoods => {
-  //     // console.log(fetchedGoods)
-  //     setItemsList(fetchedGoods);
-  //   });
-  // } 
-  // useEffect(getFetchGroceries, [])
-
-  // Users GET Fetch
-
-  // const getFetchUsers = () => {
-  //   fetch('http://localhost:9292/users')
-  //   .then(response => response.json())
-  //   .then(fetchedUsers => {
-  //     // console.log(fetchedUsers)
-  //     setUserList(fetchedUsers);
-  //   });
-  // } 
-  // useEffect(getFetchUsers, [])
-
-  // TransactionHistory GET Fetch
-  const getFetchTransactions = () => {
-    fetch('http://localhost:9292/transactions')
-    .then(response => response.json())
-    .then(fetchedTransactions => {
-      // console.log(fetchedUsers)
-      setTransactionsList(fetchedTransactions);
-    });
-  } 
-
-
-
-  return (
+ return (
     <div className="App">
       <Header />
+          <UsersList deleteUserFunction={deleteUser} fetchedUsers={userList} />
       <Switch>
         <Route exact path="/">
           <header className="App-header">
             <img src={logo} className="App-logo" alt="logo" />
-          </header>
-          <UsersList fetchedUsers={userList} />
-
-          
+          <br></br>
           <ItemList fetchedItems={itemsList}/> 
+          </header>
         </Route>
         <Route path="/transactions">
-          {/* <TransactionHistory fetchedTransactions={transactionsList}/> */}
-
-
+          {/* <TransactionHistory fetchedUsersForTransactions={userList}/> */}
         </Route>
 
         <Route path="*">
@@ -109,14 +68,6 @@ function App() {
         </Route>
       </Switch>
 
-
-      
-      
-
-
-
-
-     
     </div>
   );
 }

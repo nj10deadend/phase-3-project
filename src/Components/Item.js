@@ -1,16 +1,12 @@
 function Item ({eachItem}) {
     return (
-        <div>
+        <div className='tile' id='item'> 
             <img className="picture" src={eachItem.image_url} alt={eachItem.name} />
-
-            <h4>{eachItem.name}</h4>
-            <h4>Category: {eachItem.category}</h4>
-            <h4>$ {eachItem.price}</h4>
-
-            <button>Buy</button>
-
+            <h4 className='fonti'>{eachItem.name}</h4>
+            <h5 className='fonti'>Category: {eachItem.category}</h5>
+            <h4 className='fonti'>$ {eachItem.price}</h4>
+            <button className='buy'>Buy</button>
         </div>
     )
 }
-
 export default Item;
